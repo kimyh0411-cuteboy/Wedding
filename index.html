@@ -929,12 +929,15 @@ function buildCalendar() {
 buildCalendar();
 
 function updateCountdown() {
-  const target = new Date(2026, 8, 20, 14, 0);
+  const target = new Date(2026, 8, 20);
+  target.setHours(0, 0, 0, 0);
   const now = new Date();
+  now.setHours(0, 0, 0, 0);
   const diff = target - now;
   const el = document.getElementById('countdown');
-  if (diff < 0) { el.innerHTML = '<b>결혼식 당일</b>입니다 🌿'; return; }
-  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  if (diff < 0) { el.innerHTML = '<b>결혼식이 끝났습니다</b> 💚'; return; }
+  if (diff === 0) { el.innerHTML = '<b>결혼식 당일</b>입니다 🌿'; return; }
+  const days = Math.round(diff / (1000 * 60 * 60 * 24));
   el.innerHTML = '용현 ♥ 현지의 결혼식이<br><b>D − ' + days + '</b> 일 남았습니다';
 }
 updateCountdown();
