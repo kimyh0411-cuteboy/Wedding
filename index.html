@@ -334,7 +334,13 @@ section {
   font-weight: 500;
   color: var(--ink);
   letter-spacing: 0.1em;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+}
+.venue-card .venue-hall {
+  font-size: 14.5px;
+  color: var(--sage-deep);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
 }
 .venue-card .venue-detail {
   font-size: 13.5px;
@@ -347,14 +353,22 @@ section {
   margin-top: 10px;
   letter-spacing: 0.05em;
 }
+.venue-card .venue-meal {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+}
 .map-container {
   width: 100%;
-  aspect-ratio: 4/3;
   border-radius: 2px;
   overflow: hidden;
   border: 1px solid var(--line);
   background: #e8e4d6;
 }
+.map-container img { width: 100%; height: auto; display: block; }
 .map-container iframe { width: 100%; height: 100%; border: 0; }
 .map-buttons {
   display: grid;
@@ -678,29 +692,36 @@ section {
     </div>
     <div class="venue-card">
       <div class="venue-name">노비아갈라 동촌점</div>
-      <div class="venue-detail">대구광역시 동구 검사동 동촌로 87</div>
-      <div class="venue-tel">📞 추후 안내드립니다</div>
+      <div class="venue-hall">5층 포레아홀</div>
+      <div class="venue-detail">대구광역시 동구 동촌로 87</div>
+      <div class="venue-tel">📞 1800-1999</div>
+      <div class="venue-meal">식 시작 1시간 전부터 식사 가능합니다</div>
     </div>
     <div class="map-container">
-      <iframe src="https://maps.google.com/maps?q=대구광역시+동구+검사동+동촌로+87&output=embed" loading="lazy" title="예식장 지도"></iframe>
+      <img src="images/map.jpg" alt="노비아갈라 동촌점 약도" loading="lazy">
     </div>
     <div class="map-buttons">
       <a href="https://map.naver.com/p/search/노비아갈라 동촌점" target="_blank">네이버 지도</a>
       <a href="https://map.kakao.com/?q=노비아갈라 동촌점" target="_blank">카카오 지도</a>
-      <a href="https://map.google.com/?q=대구광역시+동구+검사동+동촌로+87" target="_blank">구글 지도</a>
+      <a href="https://map.google.com/?q=대구광역시+동구+동촌로+87" target="_blank">구글 지도</a>
     </div>
     <div class="transport-info">
       <div class="item">
         <span class="label">🚇 지하철</span><br>
-        대구 도시철도 1호선 아양교역 도보 약 10분
+        1호선 동촌역 1번 출구에서 200m
       </div>
       <div class="item">
         <span class="label">🚌 버스</span><br>
-        검사삼거리·동촌입구 정류장 하차
+        동촌역(신길) 하차 — 동구1, 동구1-1, 동구3, 719, 805, 836, 818
       </div>
+    </div>
+    <div class="transport-info">
       <div class="item">
         <span class="label">🅿️ 주차</span><br>
-        예식장 주차장 이용 가능
+        건물 내 주차장 무료 이용 가능 (1시간 20분 무료)
+      </div>
+      <div class="item">
+        최대 700대 수용 · 만차 시 인근 골목 이용 부탁드립니다
       </div>
     </div>
   </section>
