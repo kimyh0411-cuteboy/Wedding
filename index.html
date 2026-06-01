@@ -543,64 +543,121 @@ section {
   border-radius: 1px;
 }
 .account-item .copy-btn:active { background: var(--sage-deep); }
-.rsvp-section { background: var(--bg); }
-.rsvp-intro {
+.bus-section { background: var(--bg); }
+.bus-intro {
   text-align: center;
   font-size: 13.5px;
   color: var(--ink-soft);
   line-height: 2;
   margin-bottom: 28px;
 }
-.rsvp-form { background: var(--card); padding: 26px 22px; border: 1px solid var(--line); }
-.form-row { margin-bottom: 18px; }
-.form-row label {
-  display: block;
-  font-size: 12.5px;
+.bus-card {
+  background: var(--card);
+  padding: 28px 22px;
+  text-align: center;
+  border: 1px solid var(--line);
+}
+.bus-card-label {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--sage-deep);
+  padding: 5px 16px;
+  border: 1px solid var(--sage);
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+.bus-card-date {
+  font-size: 15px;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px dashed var(--line);
+}
+.bus-route {
+  text-align: left;
+  padding: 0 8px;
+}
+.bus-route .route-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.bus-route .route-item + .route-item { border-top: 1px dashed var(--line); }
+.bus-route .route-label {
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+.bus-route .route-label .pin { color: var(--sage); margin-right: 6px; }
+.bus-route .route-time {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
   color: var(--sage-deep);
   letter-spacing: 0.1em;
-  margin-bottom: 8px;
-  font-weight: 500;
 }
-.form-row input, .form-row select, .form-row textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  font-family: inherit;
-  font-size: 14px;
-  color: var(--ink);
-  border-radius: 0;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--sage); }
-.radio-group { display: flex; gap: 0; border: 1px solid var(--line); background: var(--bg); }
-.radio-group label {
-  flex: 1;
+.bus-rsvp {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--line);
   text-align: center;
-  padding: 12px 0;
+}
+.bus-rsvp-text {
   font-size: 13px;
   color: var(--ink-soft);
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  margin-bottom: 0;
-  transition: all 0.2s;
+  line-height: 1.9;
+  margin-bottom: 16px;
 }
-.radio-group label.active { background: var(--sage); color: #fff; }
-.submit-btn {
-  width: 100%;
+.bus-rsvp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   background: var(--sage-deep);
   color: #fff;
+  text-decoration: none;
   border: none;
-  padding: 14px;
+  padding: 13px 26px;
+  font-size: 13.5px;
+  letter-spacing: 0.15em;
   font-family: inherit;
-  font-size: 14px;
-  letter-spacing: 0.2em;
+  border-radius: 2px;
   cursor: pointer;
-  margin-top: 8px;
+  transition: background 0.2s;
 }
-.submit-btn:active { background: var(--ink); }
+.bus-rsvp-btn:active { background: var(--ink); }
+.bus-rsvp-btn .arrow {
+  font-size: 10px;
+  transition: transform 0.3s;
+}
+.bus-rsvp-btn.open .arrow { transform: rotate(180deg); }
+.bus-form-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.bus-form-wrap.open {
+  max-height: 1400px;
+  margin-top: 18px;
+}
+.bus-form-wrap iframe {
+  width: 100%;
+  height: 1200px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  display: block;
+}
+.bus-form-hint {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+.bus-form-hint a { color: var(--sage-deep); text-decoration: none; border-bottom: 1px solid var(--line); }
 .footer {
   text-align: center;
   padding: 50px 30px 40px;
@@ -872,61 +929,38 @@ section {
     </div>
   </section>
 
-  <section class="rsvp-section fade-in">
+  <section class="bus-section fade-in">
     <div class="section-title">
-      <span class="en">RSVP</span>
-      <span class="ko">참석 의사 전달</span>
+      <span class="en">GUEST BUS</span>
+      <span class="ko">하객버스 안내</span>
     </div>
-    <p class="rsvp-intro">
-      신랑신부에게 참석 여부를 미리 알려주시면<br>
-      더욱 풍성한 자리를 준비하는 데<br>
-      큰 도움이 됩니다.
+    <p class="bus-intro">
+      하객분들의 편의를 위하여<br>
+      결혼식 당일 버스를 마련하였습니다.<br>
+      기쁜 마음으로 오셔서 자리를 빛내주시면<br>
+      감사드리겠습니다.
     </p>
-    <form class="rsvp-form" onsubmit="submitRSVP(event)">
-      <div class="form-row">
-        <label>참석 여부</label>
-        <div class="radio-group" id="attendGroup">
-          <label data-value="yes" class="active">참석합니다</label>
-          <label data-value="no">참석이 어렵습니다</label>
+    <div class="bus-card">
+      <div class="bus-card-label">CHARTER BUS</div>
+      <div class="bus-card-date">2026년 9월 20일 일요일</div>
+      <div class="bus-route">
+        <div class="route-item">
+          <span class="route-label"><span class="pin">📍</span>서울 사당역 출발</span>
+          <span class="route-time">오전 9시</span>
         </div>
-        <input type="hidden" id="attendValue" value="yes">
       </div>
-      <div class="form-row">
-        <label>구분</label>
-        <div class="radio-group" id="sideGroup">
-          <label data-value="groom" class="active">신랑측</label>
-          <label data-value="bride">신부측</label>
+      <div class="bus-rsvp">
+        <p class="bus-rsvp-text">
+          원활한 운영을 위해 버스 탑승 예정이신 분들은<br>
+          아래 설문에 응답해 주시면 감사하겠습니다.
+        </p>
+        <button type="button" class="bus-rsvp-btn" id="busFormToggle" onclick="toggleBusForm()">🚌 버스 탑승 신청하기 <span class="arrow">▼</span></button>
+        <div class="bus-form-wrap" id="busFormWrap">
+          <iframe id="busFormIframe" data-src="https://docs.google.com/forms/d/e/1FAIpQLScDtoBCgJU93y2lJl6UItbrZTOaXYo6_vXrWVeQZcbsBLRr8g/viewform?embedded=true" src="about:blank" title="버스 탑승 신청 설문" loading="lazy">로딩 중...</iframe>
+          <div class="bus-form-hint">설문이 보이지 않으면 <a href="https://docs.google.com/forms/d/e/1FAIpQLScDtoBCgJU93y2lJl6UItbrZTOaXYo6_vXrWVeQZcbsBLRr8g/viewform" target="_blank" rel="noopener">새 창에서 열기</a></div>
         </div>
-        <input type="hidden" id="sideValue" value="groom">
       </div>
-      <div class="form-row">
-        <label>성함</label>
-        <input type="text" name="name" placeholder="홍길동" required>
-      </div>
-      <div class="form-row">
-        <label>참석 인원 (본인 포함)</label>
-        <select name="count">
-          <option value="1">1명</option>
-          <option value="2" selected>2명</option>
-          <option value="3">3명</option>
-          <option value="4">4명</option>
-          <option value="5">5명 이상</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>식사 여부</label>
-        <div class="radio-group" id="mealGroup">
-          <label data-value="yes" class="active">예정</label>
-          <label data-value="no">미정</label>
-        </div>
-        <input type="hidden" id="mealValue" value="yes">
-      </div>
-      <div class="form-row">
-        <label>전하실 말씀 (선택)</label>
-        <textarea name="message" rows="3" placeholder="축하 메시지를 남겨주세요"></textarea>
-      </div>
-      <button type="submit" class="submit-btn">전 달 하 기</button>
-    </form>
+    </div>
   </section>
 
   <div class="footer">
@@ -1073,6 +1107,18 @@ function toggleAccount(btn) {
   btn.nextElementSibling.classList.toggle('open');
 }
 
+function toggleBusForm() {
+  const btn = document.getElementById('busFormToggle');
+  const wrap = document.getElementById('busFormWrap');
+  const iframe = document.getElementById('busFormIframe');
+  const willOpen = !wrap.classList.contains('open');
+  btn.classList.toggle('open', willOpen);
+  wrap.classList.toggle('open', willOpen);
+  if (willOpen && iframe.src !== iframe.dataset.src) {
+    iframe.src = iframe.dataset.src;
+  }
+}
+
 function copyText(text) {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(() => showToast('계좌번호가 복사되었습니다'));
@@ -1118,23 +1164,6 @@ function toggleMusic() {
     musicBtn.textContent = '🎵';
     musicBtn.classList.remove('playing');
   }
-}
-
-['attendGroup','sideGroup','mealGroup'].forEach(id => {
-  const group = document.getElementById(id);
-  group.querySelectorAll('label').forEach(lbl => {
-    lbl.addEventListener('click', () => {
-      group.querySelectorAll('label').forEach(l => l.classList.remove('active'));
-      lbl.classList.add('active');
-      document.getElementById(id.replace('Group','Value')).value = lbl.dataset.value;
-    });
-  });
-});
-
-function submitRSVP(e) {
-  e.preventDefault();
-  showToast('소중한 마음 감사합니다 💚');
-  e.target.reset();
 }
 
 const observer = new IntersectionObserver(entries => {
