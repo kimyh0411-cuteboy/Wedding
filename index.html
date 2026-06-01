@@ -274,15 +274,15 @@ section {
 }
 .gallery-grid .thumb {
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 3/4;
   overflow: hidden;
-  background: #e8e2cf;
+  background: #fff;
   cursor: pointer;
 }
 .gallery-grid .thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   transition: transform 0.35s ease;
 }
@@ -763,7 +763,6 @@ section {
   background: var(--card);
   border: 1px solid var(--line);
 }
-.footer .share-option.kakao .share-icon { background: #fee500; border-color: #fee500; color: #3c1e1e; }
 .footer .share-option.sms .share-icon { background: #e8f0e3; border-color: #c8d5be; }
 .footer .share-option .share-name {
   font-size: 11.5px;
@@ -1098,10 +1097,6 @@ section {
     <div class="share-section">
       <div class="share-label">SHARE</div>
       <div class="share-options">
-        <button type="button" class="share-option kakao" onclick="shareToKakao()" aria-label="카카오톡으로 공유">
-          <span class="share-icon">💬</span>
-          <span class="share-name">카카오톡</span>
-        </button>
         <button type="button" class="share-option sms" onclick="shareToSMS()" aria-label="문자로 공유">
           <span class="share-icon">📱</span>
           <span class="share-name">문자</span>
@@ -1281,18 +1276,6 @@ function showToast(msg) {
 
 const SHARE_TITLE = '용현 ♥ 현지 결혼합니다';
 const SHARE_TEXT = '2026년 9월 20일 일요일 오후 2시 · 노비아갈라 동촌점';
-
-async function shareToKakao() {
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url: window.location.href });
-      return;
-    } catch (e) {
-      if (e.name === 'AbortError') return;
-    }
-  }
-  await copyLink('링크가 복사되었습니다 — 카톡에 붙여넣으세요 💬');
-}
 
 function shareToSMS() {
   const body = SHARE_TITLE + '\n' + SHARE_TEXT + '\n' + window.location.href;
