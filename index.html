@@ -726,23 +726,50 @@ section {
   padding-top: 28px;
   border-top: 1px dashed var(--line);
 }
-.footer .share-btn {
-  display: inline-flex;
+.footer .share-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  color: var(--sage);
+  margin-bottom: 18px;
+}
+.footer .share-options {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+}
+.footer .share-option {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
-  background: #fee500;
-  border: none;
-  color: #3c1e1e;
-  padding: 12px 26px;
-  font-family: inherit;
-  font-size: 13.5px;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  border-radius: 22px;
-  transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.15s;
 }
-.footer .share-btn:active { transform: scale(0.96); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.footer .share-option:active { transform: scale(0.92); }
+.footer .share-option .share-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.footer .share-option.kakao .share-icon { background: #fee500; border-color: #fee500; color: #3c1e1e; }
+.footer .share-option.sms .share-icon { background: #e8f0e3; border-color: #c8d5be; }
+.footer .share-option .share-name {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
 .footer .copyright {
   margin-top: 36px;
   font-family: 'Cormorant Garamond', serif;
@@ -1069,9 +1096,21 @@ section {
     <div class="couple">용현 &amp; 현지 드림</div>
 
     <div class="share-section">
-      <button type="button" class="share-btn" onclick="shareInvitation()">
-        💬 카카오톡으로 공유하기
-      </button>
+      <div class="share-label">SHARE</div>
+      <div class="share-options">
+        <button type="button" class="share-option kakao" onclick="shareToKakao()" aria-label="카카오톡으로 공유">
+          <span class="share-icon">💬</span>
+          <span class="share-name">카카오톡</span>
+        </button>
+        <button type="button" class="share-option sms" onclick="shareToSMS()" aria-label="문자로 공유">
+          <span class="share-icon">📱</span>
+          <span class="share-name">문자</span>
+        </button>
+        <button type="button" class="share-option copy" onclick="copyLink()" aria-label="링크 복사">
+          <span class="share-icon">🔗</span>
+          <span class="share-name">링크복사</span>
+        </button>
+      </div>
     </div>
 
     <div class="copyright">Made with <span class="heart">♥</span> by Yong Hyun Kim</div>
@@ -1240,23 +1279,42 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-async function shareInvitation() {
-  const shareData = {
-    title: '용현 ♥ 현지 결혼합니다',
-    text: '2026년 9월 20일 일요일 오후 2시 · 노비아갈라 동촌점\n저희 두 사람의 시작을 함께해 주세요 🌿',
-    url: window.location.href
-  };
+const SHARE_TITLE = '용현 ♥ 현지 결혼합니다';
+const SHARE_TEXT = '2026년 9월 20일 일요일 오후 2시 · 노비아갈라 동촌점';
+
+async function shareToKakao() {
   if (navigator.share) {
     try {
-      await navigator.share(shareData);
+      await navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url: window.location.href });
+      return;
     } catch (e) {
-      if (e.name !== 'AbortError') showToast('공유에 실패했습니다');
+      if (e.name === 'AbortError') return;
     }
-    return;
   }
+  await copyLink('링크가 복사되었습니다 — 카톡에 붙여넣으세요 💬');
+}
+
+function shareToSMS() {
+  const body = SHARE_TITLE + '\n' + SHARE_TEXT + '\n' + window.location.href;
+  window.location.href = 'sms:?body=' + encodeURIComponent(body);
+}
+
+async function copyLink(msg) {
+  const text = window.location.href;
   try {
-    await navigator.clipboard.writeText(window.location.href);
-    showToast('청첩장 링크가 복사되었습니다 💚');
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    showToast(msg || '청첩장 링크가 복사되었습니다 💚');
   } catch (e) {
     showToast('링크 복사에 실패했습니다');
   }
