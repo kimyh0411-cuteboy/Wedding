@@ -287,9 +287,37 @@ section {
   transition: transform 0.35s ease;
 }
 .gallery-grid .thumb:active img { transform: scale(1.06); }
+.gallery-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 18px;
+}
+.gallery-nav-btn {
+  background: none;
+  border: 1px solid var(--line);
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.gallery-nav-btn:active { background: var(--sage); color: #fff; border-color: var(--sage); }
+.gallery-page-counter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  min-width: 70px;
+  text-align: center;
+}
+.gallery-page-counter .current { color: var(--sage-deep); font-weight: 500; }
 .gallery-hint {
   text-align: center;
-  margin-top: 18px;
+  margin-top: 14px;
   font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.1em;
@@ -738,26 +766,11 @@ section {
       <span class="en">OUR GALLERY</span>
       <span class="ko">우리의 순간들</span>
     </div>
-    <div class="gallery-grid" id="galleryGrid">
-      <div class="thumb" onclick="openLightbox(0)"><img src="images/01.jpg" alt="1" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(1)"><img src="images/02.jpg" alt="2" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(2)"><img src="images/03.jpg" alt="3" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(3)"><img src="images/04.jpg" alt="4" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(4)"><img src="images/05.jpg" alt="5" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(5)"><img src="images/06.jpg" alt="6" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(6)"><img src="images/08.jpg" alt="7" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(7)"><img src="images/09.jpg" alt="8" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(8)"><img src="images/10.jpg" alt="9" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(9)"><img src="images/11.jpg" alt="10" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(10)"><img src="images/12.jpg" alt="11" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(11)"><img src="images/13.jpg" alt="12" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(12)"><img src="images/14.jpg" alt="13" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(13)"><img src="images/15.jpg" alt="14" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(14)"><img src="images/16.jpg" alt="15" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(15)"><img src="images/17.jpg" alt="16" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(16)"><img src="images/18.jpg" alt="17" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(17)"><img src="images/19.jpg" alt="18" loading="lazy"></div>
-      <div class="thumb" onclick="openLightbox(18)"><img src="images/20.jpg" alt="19" loading="lazy"></div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="gallery-nav">
+      <button class="gallery-nav-btn" onclick="galleryPageMove(-1)" aria-label="이전 페이지">‹</button>
+      <span class="gallery-page-counter"><span class="current" id="galPage">1</span> / <span id="galTotalPage">1</span></span>
+      <button class="gallery-nav-btn" onclick="galleryPageMove(1)" aria-label="다음 페이지">›</button>
     </div>
     <div class="gallery-hint">사진을 누르면 크게 볼 수 있습니다</div>
   </section>
@@ -982,6 +995,36 @@ function updateCountdown() {
 updateCountdown();
 
 const galleryImages = ['01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','08.jpg','09.jpg','10.jpg','11.jpg','12.jpg','13.jpg','14.jpg','15.jpg','16.jpg','17.jpg','18.jpg','19.jpg','20.jpg'];
+const PER_PAGE = 9;
+let galPage = 0;
+const galTotalPages = Math.ceil(galleryImages.length / PER_PAGE);
+document.getElementById('galTotalPage').textContent = galTotalPages;
+
+function renderGallery() {
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = '';
+  const start = galPage * PER_PAGE;
+  const end = Math.min(start + PER_PAGE, galleryImages.length);
+  for (let i = start; i < end; i++) {
+    const div = document.createElement('div');
+    div.className = 'thumb';
+    div.onclick = () => openLightbox(i);
+    const img = document.createElement('img');
+    img.src = 'images/' + galleryImages[i];
+    img.alt = (i + 1).toString();
+    img.loading = 'lazy';
+    div.appendChild(img);
+    grid.appendChild(div);
+  }
+  document.getElementById('galPage').textContent = galPage + 1;
+}
+function galleryPageMove(dir) {
+  galPage = (galPage + dir + galTotalPages) % galTotalPages;
+  renderGallery();
+  document.querySelector('.gallery-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+renderGallery();
+
 let lbIdx = 0;
 const lightboxEl = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
